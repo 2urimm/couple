@@ -46,7 +46,7 @@ Project docs, feature spec, technical decisions and the update log live in a sin
 
 ## Project conventions
 
-- All colors/spacing/radius/fonts come from `src/theme/tokens.ts`; the current visual design is a placeholder. Don't hard-code style values in screens.
+- All colors/spacing come from `src/theme/tokens.ts`. There is intentionally no visual design yet (plain black/white, no emoji, no radius/fonts/dark mode) until the design is agreed and brought in from Figma/CSS. Don't hard-code style values in screens or add decorative styling.
 - Screens read/write data only through `useCouple()` (`src/store/couple-store.tsx`), which talks to Supabase and maps user ids to `'me' | 'partner'`.
 - DB changes go in a new `supabase/migrations/NNNN_*.sql` file with explicit GRANTs and RLS policies (auto-expose is off). Verify RLS with `supabase/tests/` on a local Postgres.
 - Only the publishable key belongs in `.env`; never commit a secret/service_role key.

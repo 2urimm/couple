@@ -12,9 +12,9 @@ import { useCouple } from '@/store/couple-store';
 import type { PrivateNote } from '@/types/models';
 
 const KINDS: { key: PrivateNote['kind']; label: string }[] = [
-  { key: 'like', label: '💚 좋아하는 것' },
-  { key: 'dislike', label: '🚫 싫어하는 것' },
-  { key: 'memo', label: '📝 메모' },
+  { key: 'like', label: '좋아하는 것' },
+  { key: 'dislike', label: '싫어하는 것' },
+  { key: 'memo', label: '메모' },
 ];
 
 /** 나만 볼 수 있는 메모 — 백엔드에서도 작성자 본인만 읽을 수 있게 권한을 걸어야 합니다. */
@@ -24,7 +24,7 @@ export default function NotesScreen() {
   const [text, setText] = useState('');
 
   return (
-    <Screen subtitle={`🔒 ${couple.partnerName}님은 이 메모를 볼 수 없어요`}>
+    <Screen subtitle={`${couple.partnerName}님은 이 메모를 볼 수 없어요`}>
       <Row>
         {KINDS.map((k) => (
           <Chip key={k.key} label={k.label} selected={k.key === kind} onPress={() => setKind(k.key)} />

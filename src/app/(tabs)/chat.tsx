@@ -8,7 +8,7 @@ import { Screen } from '@/components/ui/screen';
 import { TextField } from '@/components/ui/text-field';
 import { useTheme } from '@/hooks/use-theme';
 import { useCouple } from '@/store/couple-store';
-import { Radius, Spacing } from '@/theme/tokens';
+import { Spacing } from '@/theme/tokens';
 
 export default function ChatScreen() {
   const { messages, sendMessage, secretMode } = useCouple();
@@ -30,7 +30,7 @@ export default function ChatScreen() {
       <Screen scroll={false}>
         {secretMode ? (
           <ThemedText type="small" themeColor="textSecondary">
-            🤫 비밀연애 모드: 채팅 알림이 가지 않아요
+            비밀연애 모드: 채팅 알림이 가지 않아요
           </ThemedText>
         ) : null}
         <FlatList
@@ -75,7 +75,6 @@ const styles = StyleSheet.create({
     maxWidth: '80%',
     paddingHorizontal: Spacing.three,
     paddingVertical: Spacing.two,
-    borderRadius: Radius.md,
   },
   inputRow: { flexWrap: 'nowrap' },
 });

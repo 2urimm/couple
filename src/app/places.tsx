@@ -51,7 +51,7 @@ export default function PlacesScreen() {
           {list.map((p) => (
             <Row key={p.id}>
               <Pressable onPress={() => toggleFavoritePlace(p.id)} hitSlop={8}>
-                <ThemedText>{p.favorite ? '⭐️' : '☆'}</ThemedText>
+                <ThemedText>{p.favorite ? '[즐겨찾기]' : '[ ]'}</ThemedText>
               </Pressable>
               <ThemedText>
                 {p.name}

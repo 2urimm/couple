@@ -12,9 +12,9 @@ import { useCouple } from '@/store/couple-store';
 import type { BucketCategory } from '@/types/models';
 
 const CATEGORIES: { key: BucketCategory; label: string }[] = [
-  { key: 'eat', label: '🍽️ 먹는 거' },
-  { key: 'play', label: '🎡 노는 거' },
-  { key: 'go', label: '✈️ 가는 거' },
+  { key: 'eat', label: '먹는 거' },
+  { key: 'play', label: '노는 거' },
+  { key: 'go', label: '가는 거' },
 ];
 
 export default function BucketListScreen() {
@@ -48,7 +48,7 @@ export default function BucketListScreen() {
             <ThemedText
               themeColor={item.done ? 'textSecondary' : 'text'}
               style={item.done ? { textDecorationLine: 'line-through' } : undefined}>
-              {item.done ? '☑️' : '⬜️'} {item.title}
+              {item.done ? '[x]' : '[ ]'} {item.title}
             </ThemedText>
           </Pressable>
         ))}

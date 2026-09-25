@@ -12,7 +12,6 @@ import { TextField } from '@/components/ui/text-field';
 import { todayString } from '@/lib/date';
 import { useCouple } from '@/store/couple-store';
 import type { CalendarEvent } from '@/types/models';
-import { Radius } from '@/theme/tokens';
 
 export default function CalendarScreen() {
   const { events, photos, couple, addEvent, commentEvent } = useCouple();
@@ -40,8 +39,8 @@ export default function CalendarScreen() {
     <Screen title="캘린더" subtitle="각자 일정과 데이트 기록">
       <Card>
         <Row>
-          <Chip label="💑 데이트" selected={kind === 'date'} onPress={() => setKind('date')} />
-          <Chip label="🙋 개인 일정" selected={kind === 'personal'} onPress={() => setKind('personal')} />
+          <Chip label="데이트" selected={kind === 'date'} onPress={() => setKind('date')} />
+          <Chip label="개인 일정" selected={kind === 'personal'} onPress={() => setKind('personal')} />
         </Row>
         <TextField value={date} onChangeText={setDate} placeholder="YYYY-MM-DD" />
         <TextField value={title} onChangeText={setTitle} placeholder="일정 제목" />
@@ -88,7 +87,7 @@ function EventItem({
   return (
     <>
       <ThemedText>
-        {event.kind === 'date' ? '💑' : '🙋'} {event.title}
+        {event.kind === 'date' ? '[데이트]' : '[개인]'} {event.title}
         <ThemedText type="small" themeColor="textSecondary">
           {event.kind === 'personal' ? `  · ${ownerName}` : ''}
         </ThemedText>
@@ -124,5 +123,5 @@ function EventItem({
 }
 
 const styles = StyleSheet.create({
-  thumb: { width: 64, height: 64, borderRadius: Radius.sm },
+  thumb: { width: 64, height: 64 },
 });

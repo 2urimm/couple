@@ -1,7 +1,7 @@
 import { StyleSheet, TextInput, type TextInputProps } from 'react-native';
 
 import { useTheme } from '@/hooks/use-theme';
-import { Radius, Spacing } from '@/theme/tokens';
+import { Spacing } from '@/theme/tokens';
 
 export function TextField({ style, ...rest }: TextInputProps) {
   const theme = useTheme();
@@ -21,7 +21,6 @@ export function TextField({ style, ...rest }: TextInputProps) {
 const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
-    borderRadius: Radius.md,
     paddingHorizontal: Spacing.three,
     paddingVertical: Spacing.two + 2,
     fontSize: 16,

@@ -45,7 +45,7 @@ export default function MusicScreen() {
           <ThemedText type="smallBold">
             {s.title} {s.artist ? `— ${s.artist}` : ''}
           </ThemedText>
-          {s.url ? <Button label="듣기 ▶︎" variant="secondary" onPress={() => Linking.openURL(s.url!)} /> : null}
+          {s.url ? <Button label="듣기" variant="secondary" onPress={() => Linking.openURL(s.url!)} /> : null}
         </Card>
       ))}
     </Screen>

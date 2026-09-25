@@ -51,7 +51,7 @@ function QuestionCard({ question }: { question: Question }) {
       ) : (
         <>
           <ThemedText type="small" themeColor="textSecondary">
-            {partnerAnswer ? `🔒 ${couple.partnerName}님은 답했어요. 내 답을 쓰면 열려요!` : '🔒 둘 다 답하면 공개돼요'}
+            {partnerAnswer ? `${couple.partnerName}님은 답했어요. 내 답을 쓰면 열려요` : '둘 다 답하면 공개돼요'}
           </ThemedText>
           <TextField value={draft} onChangeText={setDraft} placeholder="내 답변" multiline />
           <Button

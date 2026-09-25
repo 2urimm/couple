@@ -42,8 +42,6 @@ type Data = {
   inviteCode: string;
   hasPartner: boolean;
   secretMode: boolean;
-  petCount: number;
-  petRequestFrom: UserId | null;
   messages: ChatMessage[];
   questions: Question[];
   bucket: BucketItem[];
@@ -60,8 +58,6 @@ const emptyData: Data = {
   inviteCode: '',
   hasPartner: false,
   secretMode: false,
-  petCount: 0,
-  petRequestFrom: null,
   messages: [],
   questions: [],
   bucket: [],
@@ -124,12 +120,22 @@ function useCoupleState() {
   const patch = (next: Partial<Data>) => setData((d) => ({ ...d, ...next }));
 
   // ── 로그인 세션 ──────────────────────────────
+  // 다른 사용자로 바뀌거나 로그아웃하면 이전 사용자의 데이터를 비움
+  const sessionUserRef = useRef<string | undefined>(undefined);
   useEffect(() => {
+    const apply = (next: Session | null) => {
+      setSession(next);
+      if (next?.user.id !== sessionUserRef.current) {
+        sessionUserRef.current = next?.user.id;
+        setCoupleId(undefined);
+        setData(emptyData);
+      }
+    };
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
+      apply(session);
       setSessionLoaded(true);
     });
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => setSession(session));
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => apply(session));
     return () => sub.subscription.unsubscribe();
   }, []);
 
@@ -145,7 +151,7 @@ function useCoupleState() {
       if (!mine?.couple_id) return;
 
       const couple = await run(
-        supabase.from('couples').select('invite_code, start_date, pet_count, pet_request_from').single(),
+        supabase.from('couples').select('invite_code, start_date').single(),
       );
       patch({
         couple: {
@@ -156,8 +162,6 @@ function useCoupleState() {
         inviteCode: couple.invite_code,
         hasPartner: !!partner,
         secretMode: mine.secret_mode,
-        petCount: couple.pet_count,
-        petRequestFrom: couple.pet_request_from ? who(couple.pet_request_from) : null,
       });
     };
 
@@ -307,17 +311,9 @@ function useCoupleState() {
     return { profilesAndCouple, byTable, all };
   }, [userId, who]);
 
-  const loadersRef = useRef(loaders);
-  loadersRef.current = loaders;
-
   // 로그인되면 프로필/커플부터 확인
   useEffect(() => {
-    if (!sessionLoaded) return;
-    if (!loaders) {
-      setCoupleId(undefined);
-      setData(emptyData);
-      return;
-    }
+    if (!sessionLoaded || !loaders) return;
     loaders.profilesAndCouple().catch(() => setCoupleId(null));
   }, [sessionLoaded, loaders]);
 
@@ -327,7 +323,7 @@ function useCoupleState() {
     loaders.all().catch(() => {});
 
     const reload = (table: Table) => () => {
-      loadersRef.current?.byTable[table]().catch(() => {});
+      loaders.byTable[table]().catch(() => {});
     };
     const channel = supabase.channel(`couple-${coupleId}`);
     (Object.keys(loaders.byTable) as Table[])
@@ -352,7 +348,7 @@ function useCoupleState() {
           : 'ready';
 
   // ── 액션 ────────────────────────────────────
-  const reload = (table: Table) => loadersRef.current?.byTable[table]();
+  const reload = (table: Table) => loaders?.byTable[table]();
   const requireCouple = () => {
     if (!coupleId) throw new Error('커플이 연결되지 않았어요');
     return coupleId;
@@ -382,11 +378,11 @@ function useCoupleState() {
     // 커플 연결
     createCouple: safe(async (firstDay: string) => {
       await run(supabase.rpc('create_couple', { first_day: firstDay }));
-      await loadersRef.current?.profilesAndCouple();
+      await loaders?.profilesAndCouple();
     }),
     joinCouple: safe(async (code: string) => {
       await run(supabase.rpc('join_couple', { code }));
-      await loadersRef.current?.profilesAndCouple();
+      await loaders?.profilesAndCouple();
     }),
 
     // 설정
@@ -401,16 +397,6 @@ function useCoupleState() {
     setSecretMode: safe(async (secretMode: boolean) => {
       patch({ secretMode });
       await run(supabase.from('profiles').update({ secret_mode: secretMode }).eq('id', userId!));
-    }),
-
-    // 캐릭터
-    pet: safe(async () => {
-      patch({ petCount: data.petCount + 1, petRequestFrom: null });
-      await run(supabase.rpc('pet_character'));
-    }),
-    requestPet: safe(async () => {
-      patch({ petRequestFrom: 'me' });
-      await run(supabase.rpc('request_pet'));
     }),
 
     sendMessage: safe(async (text: string) => {

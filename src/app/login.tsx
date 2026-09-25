@@ -27,7 +27,7 @@ export default function LoginScreen() {
   };
 
   return (
-    <Screen title="💕 커플앱" subtitle="둘만의 공간">
+    <Screen title="커플앱" subtitle="둘만의 공간">
       <Row>
         <Chip label="로그인" selected={mode === 'signIn'} onPress={() => setMode('signIn')} />
         <Chip label="회원가입" selected={mode === 'signUp'} onPress={() => setMode('signUp')} />

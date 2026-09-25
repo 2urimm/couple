@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text, type PressableProps } from 'react-native';
 
 import { useTheme } from '@/hooks/use-theme';
-import { Radius, Spacing } from '@/theme/tokens';
+import { Spacing } from '@/theme/tokens';
 
 type Props = Omit<PressableProps, 'children'> & {
   label: string;
@@ -31,10 +31,9 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: Spacing.two + 2,
     paddingHorizontal: Spacing.three,
-    borderRadius: Radius.pill,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  label: { fontSize: 15, fontWeight: '700' },
+  label: { fontSize: 16 },
   dim: { opacity: 0.6 },
 });

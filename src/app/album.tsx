@@ -10,7 +10,7 @@ import { Screen } from '@/components/ui/screen';
 import { TextField } from '@/components/ui/text-field';
 import { todayString } from '@/lib/date';
 import { useCouple } from '@/store/couple-store';
-import { Radius, Spacing } from '@/theme/tokens';
+import { Spacing } from '@/theme/tokens';
 
 /**
  * 사진은 기기 메모리가 아닌 클라우드 스토리지에 올리고,
@@ -60,5 +60,5 @@ export default function AlbumScreen() {
 const styles = StyleSheet.create({
   group: { gap: Spacing.two },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.one },
-  photo: { width: '32%', aspectRatio: 1, borderRadius: Radius.sm },
+  photo: { width: '32%', aspectRatio: 1 },
 });

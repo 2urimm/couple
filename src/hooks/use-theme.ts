@@ -1,14 +1,6 @@
-/**
- * Learn more about light and dark modes:
- * https://docs.expo.dev/guides/color-schemes/
- */
-
 import { Colors } from '@/theme/tokens';
-import { useColorScheme } from '@/hooks/use-color-scheme';
 
+/** 현재는 라이트 한 벌. 디자인 확정 후 다크 모드를 넣으면 여기서 분기 */
 export function useTheme() {
-  const scheme = useColorScheme();
-  const theme = scheme === 'unspecified' ? 'light' : scheme;
-
-  return Colors[theme];
+  return Colors;
 }

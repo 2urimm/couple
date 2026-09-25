@@ -11,7 +11,6 @@ import { Screen } from '@/components/ui/screen';
 import { TextField } from '@/components/ui/text-field';
 import { todayString } from '@/lib/date';
 import { useCouple } from '@/store/couple-store';
-import { Radius } from '@/theme/tokens';
 
 export default function LettersScreen() {
   const { letters, couple, writeLetter, openLetter } = useCouple();
@@ -37,11 +36,11 @@ export default function LettersScreen() {
   return (
     <Screen subtitle="열어보기 전까지는 내용이 보이지 않아요">
       <Card>
-        <ThemedText type="smallBold">✍️ 편지 쓰기</ThemedText>
+        <ThemedText type="smallBold">편지 쓰기</ThemedText>
         <TextField value={title} onChangeText={setTitle} placeholder="제목" />
         <TextField value={body} onChangeText={setBody} placeholder="내용" multiline style={styles.body} />
         <Row>
-          <Button label={imageUri ? '손편지 변경' : '📎 손편지 스캔 첨부'} variant="secondary" onPress={pickScan} />
+          <Button label={imageUri ? '손편지 변경' : '손편지 스캔 첨부'} variant="secondary" onPress={pickScan} />
           <Button label="보내기" onPress={send} />
         </Row>
         {imageUri ? <Image source={{ uri: imageUri }} style={styles.scan} contentFit="contain" /> : null}
@@ -58,7 +57,7 @@ export default function LettersScreen() {
               </ThemedText>
               <ThemedText type="smallBold">{letter.title}</ThemedText>
               {letter.from === 'partner' && !letter.opened ? (
-                <ThemedText themeColor="primary">💌 눌러서 열어보기</ThemedText>
+                <ThemedText>눌러서 열어보기</ThemedText>
               ) : (
                 <>
                   {letter.body ? <ThemedText>{letter.body}</ThemedText> : null}
@@ -82,5 +81,5 @@ export default function LettersScreen() {
 
 const styles = StyleSheet.create({
   body: { minHeight: 120, textAlignVertical: 'top' },
-  scan: { width: '100%', aspectRatio: 3 / 4, borderRadius: Radius.md },
+  scan: { width: '100%', aspectRatio: 3 / 4 },
 });

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Switch } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
@@ -7,18 +7,21 @@ import { Card } from '@/components/ui/card';
 import { Row } from '@/components/ui/row';
 import { Screen } from '@/components/ui/screen';
 import { TextField } from '@/components/ui/text-field';
-import { useTheme } from '@/hooks/use-theme';
 import { useCouple } from '@/store/couple-store';
 
 export default function SettingsScreen() {
   const { couple, email, inviteCode, hasPartner, secretMode, setSecretMode, setMyName, setStartDate, signOut } =
     useCouple();
-  const theme = useTheme();
   const [name, setName] = useState(couple.myName);
   const [startDate, setStartDateText] = useState(couple.startDate);
 
-  useEffect(() => setName(couple.myName), [couple.myName]);
-  useEffect(() => setStartDateText(couple.startDate), [couple.startDate]);
+  // 서버 값이 바뀌면(상대가 수정 등) 입력칸도 맞춰줌 — 렌더 중 조정 패턴
+  const [synced, setSynced] = useState({ name: couple.myName, startDate: couple.startDate });
+  if (synced.name !== couple.myName || synced.startDate !== couple.startDate) {
+    setSynced({ name: couple.myName, startDate: couple.startDate });
+    if (synced.name !== couple.myName) setName(couple.myName);
+    if (synced.startDate !== couple.startDate) setStartDateText(couple.startDate);
+  }
 
   const save = async () => {
     if (name.trim() && name.trim() !== couple.myName) await setMyName(name.trim());
@@ -32,13 +35,12 @@ export default function SettingsScreen() {
     <Screen>
       <Card>
         <Row style={{ justifyContent: 'space-between', flexWrap: 'nowrap' }}>
-          <ThemedText type="smallBold">🤫 비밀연애 모드</ThemedText>
+          <ThemedText type="smallBold">비밀연애 모드</ThemedText>
           <Switch
             value={secretMode}
             onValueChange={(value) => {
               setSecretMode(value);
             }}
-            trackColor={{ true: theme.primary, false: theme.backgroundSelected }}
           />
         </Row>
         <ThemedText type="small" themeColor="textSecondary">
@@ -58,7 +60,7 @@ export default function SettingsScreen() {
 
       {!hasPartner ? (
         <Card>
-          <ThemedText type="smallBold">💌 초대 코드</ThemedText>
+          <ThemedText type="smallBold">초대 코드</ThemedText>
           <ThemedText type="subtitle">{inviteCode}</ThemedText>
           <ThemedText type="small" themeColor="textSecondary">
             상대가 회원가입 후 이 코드를 입력하면 연결돼요.
