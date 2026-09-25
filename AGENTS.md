@@ -42,7 +42,7 @@ Docs: https://docs.expo.dev/eas/index.md
 
 ## Project notes (Obsidian)
 
-Project docs, feature spec, technical decisions and the update log live in `docs/obsidian/` (mirrored to the user's Obsidian vault at `F:\Obsidian\side-project`). Read `docs/obsidian/00 커플앱 홈.md` first, and append an entry to `docs/obsidian/업데이트 로그.md` whenever you ship a user-visible change.
+Project docs, feature spec, technical decisions and the update log live in a single note, `docs/커플앱.md` (symlinked into the user's Obsidian vault as `F:\Obsidian\side-project\커플앱.md`). Read it first, and add an entry at the top of its `## 업데이트 로그` section whenever you ship a user-visible change. Keep it one file — don't split it into multiple notes.
 
 ## Project conventions
 
