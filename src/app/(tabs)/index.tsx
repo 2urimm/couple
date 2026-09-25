@@ -10,7 +10,7 @@ import { daysTogether, nextMilestone } from '@/lib/date';
 import { useCouple } from '@/store/couple-store';
 
 export default function HomeScreen() {
-  const { couple, petRequestFrom, songs, secretMode } = useCouple();
+  const { couple, petRequestFrom, songs, secretMode, hasPartner, inviteCode } = useCouple();
   const days = daysTogether(couple.startDate);
   const milestone = nextMilestone(couple.startDate);
   const todaySong = songs[0];
@@ -19,7 +19,7 @@ export default function HomeScreen() {
     <Screen>
       <Card style={styles.dday}>
         <ThemedText themeColor="textSecondary">
-          {couple.myName} ♥ {couple.partnerName}
+          {couple.myName} ♥ {couple.partnerName || '?'}
           {secretMode ? '  · 🤫 비밀연애 중' : ''}
         </ThemedText>
         <ThemedText type="title" themeColor="primary">
@@ -29,6 +29,16 @@ export default function HomeScreen() {
           {milestone.day}일까지 {milestone.remaining}일 남았어요 ({milestone.date})
         </ThemedText>
       </Card>
+
+      {!hasPartner ? (
+        <Card>
+          <ThemedText type="smallBold">💌 상대를 초대하세요</ThemedText>
+          <ThemedText type="subtitle">{inviteCode}</ThemedText>
+          <ThemedText type="small" themeColor="textSecondary">
+            상대가 회원가입 후 이 코드를 입력하면 연결돼요.
+          </ThemedText>
+        </Card>
+      ) : null}
 
       <Card>
         <ThemedText type="smallBold">🐻 우리 캐릭터</ThemedText>
