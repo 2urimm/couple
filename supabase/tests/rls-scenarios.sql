@@ -1,4 +1,4 @@
--- RLS 시나리오 테스트: A·B 커플 + 외부인 C. local-stubs.sql → migrations → 이 파일 순서로 로컬 Postgres에서 실행.
+-- RLS 시나리오 테스트: A·B 커플 + 외부인 C. local-stubs.sql → migrations(0001~0004) → 이 파일 순서로 로컬 Postgres에서 실행.
 -- "(expect ...)" 표시와 실제 결과를 비교하세요.
 \set ON_ERROR_STOP 0
 \set A '''aaaaaaaa-0000-0000-0000-000000000001'''
