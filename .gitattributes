@@ -1,0 +1,11 @@
+# 모든 텍스트 파일은 저장소와 작업 폴더 모두 LF로 통일 (Windows/옵시디언 줄바꿈 차이 방지)
+* text=auto eol=lf
+
+# 바이너리
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ttf binary
+*.otf binary
